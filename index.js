@@ -5,10 +5,27 @@ const app =express();
 const PORT=3000;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(logger);
 
+function logger(req,res,next){
+    console.log(req.url);
+    console.log(req.body);
+    let comment = false;
+    if(comment){
+        return res.status(500).json({
+            messege: "Something went wrong"
+        })
+    }
+    next();
+}
+function isAuthenticated(req,res,next){
+    console.log("Yes! User is Authenticated");
+    next();
+}
 //mimic the db using an array 
 let blogsList=[];
-app.get('/blogs',function(req,res){
+app.get('/blogs',logger,isAuthenticated,function(req,res){
+    console.log("Hitting");
    return res.status(200).json({
     data: blogsList,
     success : true
