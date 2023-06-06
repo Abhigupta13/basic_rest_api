@@ -24,7 +24,7 @@ function isAuthenticated(req,res,next){
 }
 //mimic the db using an array 
 let blogsList=[];
-app.get('/blogs',logger,isAuthenticated,function(req,res){
+app.get('/blogs',isAuthenticated,function(req,res){
     console.log("Hitting");
    return res.status(200).json({
     data: blogsList,
